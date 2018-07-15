@@ -14,7 +14,6 @@
 
 /* make images display as blocks, so I don't have to wrap them in
 other divs just for layout purposes. */
- */
 img {
     display: block;
 }
@@ -73,14 +72,14 @@ body {
     /* Approximate the logo's font size */
     font-size: 2em;
     margin-left: 10px;
-    justify-self: end;
+    text-align: right;
 }
 
 .tagline {
     grid-area: tagline;
     margin-left: 10px;
     font-size: 1.3em;
-    justify-self: end;
+    text-align: right;
 }
 
 
@@ -95,6 +94,7 @@ body {
     grid-template-columns: 1fr 1fr 1fr;
 
     /* center the menu items in both directions */
+    /* Note: justify-items works, but gives a C3 validation error */
     justify-items: center;
     align-items: center;
 
@@ -104,6 +104,8 @@ body {
 }
 
 .main_menu > a {
+    display: block;
+    
     font-size: 1.3em;
 
     /* underline only on hover (see below) */
@@ -242,7 +244,7 @@ body {
     .feature_article:nth-of-type(odd) .feature_title {
         padding: 1ch;
         text-align: left;
-        align-self: end;
+        align-self: flex-end;
     }
 
     /* flip the layout of even-numbered articles */
@@ -256,7 +258,7 @@ body {
     .feature_article:nth-of-type(even) .feature_title {
         padding: 1ch;
         text-align: right;
-        align-self: end;
+        align-self: flex-end;
     }
 
     .feature_blurb {

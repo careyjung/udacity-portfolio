@@ -35,6 +35,10 @@ the footer.
   about 40 hours into this project, so I just didn't have time for
   full testing, and I wanted to focus on the goal of learning flex and
   grid layouts and creating a responsive design.
+  
+* index.html and main.css both pass W3C validation checks, with the
+  exception of line 98 in main.css. Couldn't figure out what was wrong
+  with that, but it worked.
 
 ## Interesting Things I've Learned ##
 
