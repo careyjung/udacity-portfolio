@@ -26,6 +26,16 @@ from the [MDN grid tutorial](https://developer.mozilla.org/en-US/docs/Web/CSS/CS
 switched to that for most everything. The only flexbox remaining is in
 the footer.
 
+## Implementation Notes ##
+
+* I have only tested this in Chrome -- but in DevTools on various
+  screen sizes. So it should be fully responsive, but will likely not
+  work on older browsers, in particular, those that don't support grid
+  layout. Or I might have gotten lucky, I don't know. I'm already
+  about 40 hours into this project, so I just didn't have time for
+  full testing, and I wanted to focus on the goal of learning flex and
+  grid layouts and creating a responsive design.
+
 ## Interesting Things I've Learned ##
 
 * Grid area names can't be numbers, like "11 12 13". They must satisfy
