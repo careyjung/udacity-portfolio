@@ -1,0 +1,316 @@
+/* Overview: 
+   * Using a grid layout overall, as well as nested grids for many subsections
+   * Mobile-first vertical layout
+   * One intermediate layout for phones in landscape mode
+   * One large-view layout for everything else
+*/
+   
+
+/* clear some default settings */
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+/* make images display as blocks, so I don't have to wrap them in
+other divs just for layout purposes. */
+ */
+img {
+    display: block;
+}
+
+
+html {
+    /* set font and default font-size */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+}
+
+body {
+
+    /* Use grid layout. Note: I'm intentionally not creating an
+    overall wrapper div for my grid. Don't see the point in cluttering
+    up the html with divs that have nothing to do with the content. */
+    display: grid;
+
+    /* mobile-first vertical layout */
+    grid-template-areas:
+        "header"
+        "menu"
+        "banner"
+        "main"
+        "footer"
+        ;
+
+    /* a little space between areas */
+    margin: 5px;
+}
+
+
+/* Header Section */
+.header {
+    grid-area: header;
+
+    display: grid;
+    grid-template-areas:
+        "logo   title"
+        "logo   tagline"
+        ;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.logo {
+    grid-area: logo;
+
+    max-height: 70px;
+    max-width: 70px;
+}
+
+.title {
+    grid-area: title;
+
+    /* Approximate the logo's font size */
+    font-size: 2em;
+    margin-left: 10px;
+    justify-self: end;
+}
+
+.tagline {
+    grid-area: tagline;
+    margin-left: 10px;
+    font-size: 1.3em;
+    justify-self: end;
+}
+
+
+/* Main Menu */
+.main_menu {
+    grid-area: menu;
+
+    /* grid layout. (I could have flexed the menu layout, since it's 
+       one-dimensional, but grid just seemed easier.
+     */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    /* center the menu items in both directions */
+    justify-items: center;
+    align-items: center;
+
+    /* a little visual separation from the heading above */
+    border-top: solid;
+    padding: 2px;
+}
+
+.main_menu > a {
+    font-size: 1.3em;
+
+    /* underline only on hover (see below) */
+    text-decoration: none;
+}
+
+.main_menu a:hover {
+    text-decoration: underline;
+}
+
+
+/* Banner Note: No real need for a <section> wrapper around the banner
+   image, cuz I could just set grid-area on the <img> itself, but I
+   may want add more content around the banner at a later date, so
+   it's good to have the semantic block there from the git-go.  
+ */
+.banner_section {
+    grid-area: banner;
+}
+
+.banner_image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* Feature Section */
+.feature_section {
+    grid-area: main;
+    padding-top: 10px;
+
+    /* set up a nested grid for my contents. For the mobile-first layout, this
+       is really just a single vertical flow.
+     */
+    display: grid;
+    grid-template-columns: 1fr;
+
+    /* a little visual separation from the footer */
+    padding-bottom: 5px;
+    border-bottom: solid;
+}
+
+.feature_section_title {
+    text-align: center;
+    text-decoration: underline;
+}
+
+.feature_article {
+    padding-top: 10px;
+
+    /* in this mobile-first layout, put title and blurb below the image */
+    display: grid;
+    grid-template-areas:
+        "image image"
+        "title blurb"
+        ;
+    grid-template-columns: 7ch auto;
+    grid-row-gap: 2px;
+}
+
+.feature_title {
+    grid-area: title;
+    text-align: right;
+    padding-right: 1ch;
+}
+
+.feature_image {
+    grid-area: image;
+    max-width: 100%;
+}
+
+.feature_blurb {
+    grid-area: blurb;
+    text-align: justify;
+}
+
+
+
+/* Footer Section */
+.footer {
+    grid-area: footer;
+    padding-top: 5px;
+
+    display: flex;
+}
+
+.footer > a {
+    flex-grow: 1;
+    font-size: 1.5em;
+    text-decoration: none;
+    text-align: center;
+}
+
+/* This intermediate layout is primarily for phones in landscape mode. It's
+   main purpose is to make the banner image fit on the screen in its entirety.
+   To do this, I move the menu to the left side, which forces the image to scale
+   down in size, instead of occupying (and extending past the bottom of) the
+   screen.
+ */
+@media screen and (min-width: 650px) and (max-width: 1000px) {
+
+    body {
+        /* move the menu to the left of the banner image */
+        grid-template-areas:
+            "header header"
+            "menu banner"
+            "main main"
+            "footer footer"
+            ;
+    }
+
+    /* Main Menu */
+    .main_menu {
+        /* a single vertical column for menu items */
+        grid-template-columns: 1fr;
+    }
+
+    /* match the visual separation of the menu */
+    .banner_image {
+        border-top: solid;
+        padding-top: 2px;
+    }
+
+    /* alternate the left-to-right positioning of feature articles to
+       create a bit of balance */
+
+    /* odd-numbered articles: image on the left, title and blurb on the right */
+    .feature_article:nth-of-type(odd) {
+        grid-template-areas:
+            "image title"
+            "image blurb"
+            ;
+        grid-template-columns: auto 30ch;
+    }
+    .feature_article:nth-of-type(odd) .feature_title {
+        padding: 1ch;
+        text-align: left;
+        align-self: end;
+    }
+
+    /* flip the layout of even-numbered articles */
+    .feature_article:nth-of-type(even) {
+        grid-template-areas:
+            "title image"
+            "blurb image"
+            ;
+        grid-template-columns: 30ch auto;
+    }
+    .feature_article:nth-of-type(even) .feature_title {
+        padding: 1ch;
+        text-align: right;
+        align-self: end;
+    }
+
+    .feature_blurb {
+        padding: 1ch;
+    }
+
+}
+
+/* This wide layout is for notepads in landscape mode, laptops, and anything
+   larger */
+@media screen and (min-width: 1000px) {
+
+    /* boost the logo, title, and tagline sizes a bit */
+    .logo {
+        max-height: 80px;
+        max-width: 80px;
+    }
+
+    .title {
+        font-size: 2.6em;
+    }
+
+    .tagline {
+        font-size: 1.7em;
+    }
+
+    /* freeze the width of the content and center it */
+    body {
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* spread the feature articles out horizontally */
+    .feature_section {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column-gap: 5px;
+    }
+
+    /* titles above the images, blurbs below */
+    .feature_section_title {
+        grid-column: 1 / -1;
+    }
+
+    .feature_article {
+        grid-template-columns: unset;
+        grid-template-areas:
+            "title"
+            "image"
+            "blurb"
+            ;
+    }
+
+    .feature_title {
+        text-align: left;
+    }
+}
